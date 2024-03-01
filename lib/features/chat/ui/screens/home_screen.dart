@@ -120,35 +120,36 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             // features list
-            Visibility(
-              child: Column(
-                children: [
-                  FeatureBox(
-                    onClick: () => context.pushNamed(Routes.chatScreen),
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: ()=>context.pushNamed(Routes.allChatsScreen),
+                  child: FeatureBox(
+                    onClick: () { context.pushNamed(Routes.messagesScreen);},
                     timeDelay: start,
                     color: Pallete.firstSuggestionBoxColor,
                     headerText: 'ChatGPT',
                     descriptionText:
                         'A smarter way to stay organized and informed with ChatGPT',
                   ),
-                  FeatureBox(
-                    onClick: () => context.pushNamed(Routes.chatScreen),
-                    timeDelay: (start  + delay),
-                    color: Pallete.secondSuggestionBoxColor,
-                    headerText: 'Dall-E',
-                    descriptionText:
-                        'Get inspired and stay creative with your personal assistant powered by Dall-E',
-                  ),
-                  FeatureBox(
-                    onClick: () => context.pushNamed(Routes.chatScreen),
-                    timeDelay: start + 2 * delay,
-                    color: Pallete.thirdSuggestionBoxColor,
-                    headerText: 'Smart Voice Assistant',
-                    descriptionText:
-                        'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT',
-                  ),
-                ],
-              ),
+                ),
+                FeatureBox(
+                  onClick: () { context.pushNamed(Routes.messagesScreen);},
+                  timeDelay: (start  + delay),
+                  color: Pallete.secondSuggestionBoxColor,
+                  headerText: 'Dall-E',
+                  descriptionText:
+                      'Get inspired and stay creative with your personal assistant powered by Dall-E',
+                ),
+                FeatureBox(
+                  onClick: () { context.pushNamed(Routes.messagesScreen);},
+                  timeDelay: start + 2 * delay,
+                  color: Pallete.thirdSuggestionBoxColor,
+                  headerText: 'Smart Voice Assistant',
+                  descriptionText:
+                      'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT',
+                ),
+              ],
             )
           ],
         ),

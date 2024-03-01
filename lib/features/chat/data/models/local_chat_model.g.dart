@@ -18,7 +18,7 @@ class LocalChatModelAdapter extends TypeAdapter<LocalChatModel> {
     };
     return LocalChatModel(
       fields[0] as String,
-      fields[1] as ChatModel,
+      chatMessages: fields[1] as ChatModel?,
     );
   }
 
@@ -50,7 +50,9 @@ class LocalChatModelAdapter extends TypeAdapter<LocalChatModel> {
 LocalChatModel _$LocalChatModelFromJson(Map<String, dynamic> json) =>
     LocalChatModel(
       json['name'] as String,
-      ChatModel.fromJson(json['chatMessages'] as Map<String, dynamic>),
+      chatMessages: json['chatMessages'] == null
+          ? null
+          : ChatModel.fromJson(json['chatMessages'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$LocalChatModelToJson(LocalChatModel instance) =>

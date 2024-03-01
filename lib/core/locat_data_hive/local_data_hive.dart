@@ -15,6 +15,6 @@ class LocalDataHive {
     //box
     final chatsBox = await Hive.openBox<LocalChatModel?>(chatsKey);
     //repos
-    ChatsRepository(chatsBox: chatsBox);
+    LocalChatRepo(chatsBox: chatsBox);
   }
 }

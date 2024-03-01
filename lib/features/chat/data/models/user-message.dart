@@ -1,5 +1,6 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_flutter/adapters.dart';
 part 'user-message.g.dart';
 
 @JsonSerializable()
@@ -16,8 +17,11 @@ class UserMessage {
 }
 
 @JsonSerializable()
+@HiveType(typeId: 2)
 class Message {
+  @HiveField(0)
   final String role;
+  @HiveField(1)
   final String content;
 
   Message({this.role = 'user', required this.content});

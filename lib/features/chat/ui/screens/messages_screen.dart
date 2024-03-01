@@ -9,18 +9,19 @@ import 'package:provider/provider.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/assets_manager.dart';
 import '../../../../core/utils/services.dart';
+import '../../data/models/chat_model.dart';
 import '../../logic/chat_state.dart';
 import '../widgets/chat_widget.dart';
 import '../widgets/text_widget.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
-
+class MessagesScreen extends StatefulWidget {
+  MessagesScreen({super.key, required this.chatName});
+  String chatName;
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _MessagesScreenState extends State<MessagesScreen> {
   // bool _isTyping = false;
 
   late TextEditingController textEditingController;
@@ -29,6 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     ChatCubit.get(context).emitChatModelsStates();
+    ChatCubit.get(context).emitGetChatMessagestates(widget.chatName);
     _listScrollController = ScrollController();
     textEditingController = TextEditingController();
     focusNode = FocusNode();
@@ -174,26 +176,14 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     try {
       String msg = textEditingController.text;
-      //setState(() {
-        //_isTyping = true;
-        // chatList.add(ChatModel(msg: textEditingController.text, chatIndex: 0));
-        context.read<ChatCubit>().addUserMessage(msg: msg);
+        context.read<ChatCubit>().addUserMessage(msg: ChatModel(message: Message(content: msg), index: 1), chatName: widget.chatName);
         textEditingController.clear();
-        //focusNode.unfocus();
-    //  });
-      await context.read<ChatCubit>().emitSendMessageStates(
+         await context.read<ChatCubit>().emitSendMessageStates(
           UserMessage(message: [Message(content: msg)], model: 'gpt-3.5-turbo-0301'));
       scrollListToEND();
       setState(() {
 
       });
-      // await context.read<ChatCubit>().sendMessageAndGetAnswers(
-      //     msg: msg, chosenModelId: modelsProvider.getCurrentModel);
-      // chatList.addAll(await ApiService.sendMessage(
-      //   message: textEditingController.text,
-      //   modelId: modelsProvider.getCurrentModel,
-      // ));
-      //setState(() {});
     } catch (error) {
       log("error $error");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
