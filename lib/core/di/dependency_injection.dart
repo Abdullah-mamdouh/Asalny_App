@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:chat_gpt_groups/features/chat/data/models/local_chat_model.dart';
 import 'package:hive/hive.dart';
 
+import '../../features/chat/data/models/user-message.dart';
 import '../../features/chat/data/repo/local_chat_repo/local_chat_repo.dart';
 
 import '../../networking/api_service/dio_factory.dart';
@@ -20,6 +21,8 @@ Future<void> setupGetIt() async{
   const chatsKey = 'chats';
   //adapters
   Hive.registerAdapter(LocalChatModelAdapter());
+  Hive.registerAdapter(ChatModelAdapter());
+  Hive.registerAdapter(MessageAdapter());
   //box
   final chatsBox = await Hive.openBox<LocalChatModel?>(chatsKey);
   //repos

@@ -90,12 +90,13 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   emitGetChatMessagestates(String chatName) async {
+    chatList = [];
     emit(const ChatState.loading());
     // if(await internetChecker.isConnected){
     final response = await localChatRepo.fetchLocalChatMessages(chatName);
     response.when(
         success: (response) {
-          print(response.toList().toString());
+          print(response.toList().toString()+'ooooooooooo');
           emit(ChatState.success(response));
           chatList = response;
         }, failure: (error) {

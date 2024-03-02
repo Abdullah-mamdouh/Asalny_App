@@ -11,19 +11,12 @@ class LocalChatRepo {
   LocalChatRepo({required Box<LocalChatModel?> chatsBox}) : _chatsBox = chatsBox;
 
   final Box<LocalChatModel?> _chatsBox;
-  late final Box<ChatModel> chatsBox;
+  Box<ChatModel>? chatsBox;
 
   Future<void> addChat({required String chatName}) async{
     await _chatsBox.add(LocalChatModel(chatName));
   }
 
-  // Future<void> saveChatsLocally({
-  //   required List<LocalChatModel> chats,
-  // }) async {
-  //   for (final chat in chats) {
-  //     //await _chatsBox.put(chat.id, chat);
-  //   }
-  // }
   Future<ServiceResult<List<LocalChatModel?>>> fetchAllLocalChats() async {
 
     try{
@@ -41,13 +34,12 @@ class LocalChatRepo {
   }
 
   Future<ServiceResult<List<ChatModel>>> fetchLocalChatMessages(String chatName) async {
-   openBox(chatName);
+   await openBox(chatName);
     try{
-      final chatDetails = await chatsBox.values.toList();
+      final chatDetails = await chatsBox!.values.toList();
 
       return ServiceResult.success(chatDetails);
     } catch (errro) {
-      print("sfdadsssssssssssssssssssssssssss");
       return ServiceResult.failure(Handler.handle(ApiErrorHandler(errro)));
     }
 
@@ -55,16 +47,14 @@ class LocalChatRepo {
 
   openBox(String chatName) async{
     if(!(Hive.isBoxOpen(chatName))){
-      Hive.registerAdapter(ChatModelAdapter());
-      Hive.registerAdapter(MessageAdapter());
       chatsBox = await Hive.openBox<ChatModel>(chatName);
-
     }
+    chatsBox = Hive.box(chatName);
   }
 
   Future<void> addMessage({required String chatName,required ChatModel message}) async{
     openBox(chatName);
-    await chatsBox.add(message);
+    await chatsBox!.add(message);
   }
 
 }

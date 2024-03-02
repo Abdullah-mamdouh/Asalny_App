@@ -29,8 +29,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
   late FocusNode focusNode;
   @override
   void initState() {
-    ChatCubit.get(context).emitChatModelsStates();
-    ChatCubit.get(context).emitGetChatMessagestates(widget.chatName);
+    // ChatCubit.get(context).emitChatModelsStates();
+    // ChatCubit.get(context).emitGetChatMessagestates(widget.chatName);
     _listScrollController = ScrollController();
     textEditingController = TextEditingController();
     focusNode = FocusNode();
@@ -48,6 +48,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   // List<ChatModel> chatList = [];
   @override
   Widget build(BuildContext context) {
+    context.read<ChatCubit>().emitGetChatMessagestates(widget.chatName);
     // final modelsProvider = Provider.of<ModelsProvider>(context);
     // final context.read<ChatCubit>() = Provider.of<ChatProvider>(context);
     return Scaffold(
@@ -57,7 +58,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(AssetsManager.openaiLogo),
         ),
-        title: const Text("ChatGPT"),
+        title: Text("${widget.chatName}"),
         actions: [
           IconButton(
             onPressed: () async {
